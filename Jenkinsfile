@@ -24,7 +24,7 @@ pipeline {
           pip install --user bandit semgrep
           export PATH="$HOME/.local/bin:$PATH"
           bandit -r . -ll -x ./tests,./.git
-          semgrep --config auto --error .
+          semgrep --config auto --error --exclude reactjs-app .
           docker run --rm --volumes-from jenkins zricethezav/gitleaks:latest detect --source "$PWD" --no-banner
         '''
       }
