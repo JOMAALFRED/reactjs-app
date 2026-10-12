@@ -22,7 +22,7 @@ pipeline {
           export PATH="$HOME/.local/bin:$PATH"
           bandit -r . -ll -x ./tests,./.git
           semgrep --config auto --error .
-          docker run --rm -v "$PWD:/repo" zricethezav/gitleaks:latest detect --source /repo --no-banner
+          docker run --rm --volumes-from jenkins zricethezav/gitleaks:latest detect --source "$PWD" --no-banner
         '''
       }
     }
@@ -38,8 +38,8 @@ pipeline {
         sh '''
           docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:latest \
             image --exit-code 1 --severity HIGH,CRITICAL $IMAGE
-          docker run --rm -v "$PWD:/src" owasp/dependency-check:latest \
-            --scan /src --failOnCVSS 9 --noupdate || true
+          docker run --rm --volumes-from jenkins owasp/dependency-check:latest \
+            --scan "$PWD" --failOnCVSS 9 --noupdate || true
         '''
       }
     }
