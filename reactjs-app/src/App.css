@@ -1,0 +1,36 @@
+body {
+  background-color: rgb(231,248,255);
+  margin: 0;
+}
+
+.hello-container {
+  display: flex;
+  justify-content: center;
+  height: calc(100vh - 60px);
+}
+
+.hello-text {
+  font-size: 3rem;
+  color: #333;
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-content {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 20px;
+}
+
+.navbar-logo {
+  height: 40px;
+}
