@@ -46,6 +46,7 @@ pipeline {
 
     stage('4. Push Harbor') {
       when { expression { false } }
+      when { expression { false } }
       steps {
         withCredentials([usernamePassword(credentialsId: 'harbor-creds',
                          usernameVariable: 'H_USER', passwordVariable: 'H_PASS')]) {
@@ -59,6 +60,7 @@ pipeline {
 
     stage('5. Signature Cosign') {
       when { expression { false } }
+      when { expression { false } }
       steps {
         withCredentials([file(credentialsId: 'cosign-key', variable: 'COSIGN_KEY'),
                          string(credentialsId: 'cosign-password', variable: 'COSIGN_PASSWORD')]) {
@@ -68,6 +70,7 @@ pipeline {
     }
 
     stage('6. Policy check Harbor') {
+      when { expression { false } }
       when { expression { false } }
       steps {
         withCredentials([usernamePassword(credentialsId: 'harbor-creds',
