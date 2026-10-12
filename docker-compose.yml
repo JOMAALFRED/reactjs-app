@@ -4,3 +4,9 @@ services:
     ports:
       - "8000:8000"
     restart: unless-stopped
+
+  reactjs:
+    image: ${REACT_IMAGE:-reactjs-app:latest}
+    ports:
+      - "8081:80"
+    restart: unless-stopped
