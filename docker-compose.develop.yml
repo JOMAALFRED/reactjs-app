@@ -2,5 +2,5 @@ services:
   reactjs:
     image: ${REACT_IMAGE:-reactjs-app:latest}
     ports:
-      - "${APP_PORT:-8081}:8080"
+      - "8082:8080"
     restart: unless-stopped
