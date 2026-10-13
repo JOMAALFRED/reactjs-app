@@ -29,6 +29,7 @@ pipeline {
 
     stage('2. Docker build') {
       steps {
+        sh ' pwd '
         sh 'docker build -t $REACT_IMAGE ./reactjs-app'
       }
     }
@@ -41,21 +42,32 @@ pipeline {
           docker run --rm --volumes-from jenkins owasp/dependency-check:latest \
             --scan "$PWD" --failOnCVSS 9 --noupdate || true
         '''
+        sh ' pwd '
       }
     }
 
     stage('4. Déploiement Compose') {
+      when {
+        allOf {
+          not { changeRequest() }
+          anyOf {
+            branch 'main'
+            branch 'develop'
+          }
+        }
+      }
       steps {
         sh '''
-          docker compose up -d --remove-orphans
-          docker compose ps
+          docker compose -f docker-compose.$BRANCH.yml up -d --remove-orphans
+          docker compose -f docker-compose.$BRANCH.yml ps
         '''
+        sh ' pwd '
       }
     }
   }
 
   post {
-    success { echo "Pipeline OK : $REACT_IMAGE sur http://localhost:$APP_PORT" }
+    success { echo "Pipeline OK : $REACT_IMAGE (branche $BRANCH, port $APP_PORT)" }
     failure { echo 'Pipeline en échec, voir le stage rouge.' }
   }
 }
